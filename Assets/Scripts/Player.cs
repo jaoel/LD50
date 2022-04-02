@@ -40,8 +40,6 @@ public class Player : MonoBehaviour {
     }
 
     private void Movement() {
-        Rotate();
-
         Vector3 forwardDir = Vector3.zero;
         Vector3 rightDir = Vector3.zero;
 
@@ -58,7 +56,6 @@ public class Player : MonoBehaviour {
         }
 
         Vector3 direction = (new Vector3(forwardDir.x, 0.0f, forwardDir.z) + new Vector3(rightDir.x, 0.0f, rightDir.z)).normalized;
-        direction.y = 1.0f;
 
         if (direction.sqrMagnitude > 0.0f) {
             _velocity += _acceleration * Time.deltaTime;
@@ -70,11 +67,17 @@ public class Player : MonoBehaviour {
             direction = _oldDir;
         }
 
+
+        if (direction != Vector3.zero) {
+            _oldDir = direction;
+        }
+
+        direction.y = 1.0f;
         _rigidBody.velocity = Vector3.Scale(direction, new Vector3(_velocity, Physics.gravity.y, _velocity));
-        _oldDir = direction;
+        transform.forward = new Vector3(_oldDir.x, 0.0f, _oldDir.z);
     }
 
-    private void Rotate() {
+    private void RotateWithMouse() {
         Plane playerGroundPlane = new Plane(Vector3.up, new Vector3(transform.position.x, transform.position.y, transform.position.z));
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         float distance;
