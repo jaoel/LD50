@@ -23,8 +23,8 @@ public class CameraVolume : MonoBehaviour {
         }
 
         Camera main = Camera.main;
-        main.enabled = false;
-        main.tag = "Untagged";
+        main.gameObject.SetActive(false);
+        main.gameObject.tag = "Untagged";
 
         _camera.gameObject.SetActive(true);
         _camera.gameObject.tag = "MainCamera";
