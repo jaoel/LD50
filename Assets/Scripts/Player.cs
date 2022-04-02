@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
     private float _invulnTimer = 0.0f;
     private int _health = 0;
 
-    private float _attackCooldown = 0.25f;
+    private float _attackCooldown = 0.1f;
     private float _attackTime = 0f;
 
     private PlayerState _currentState = PlayerState.Moving;
@@ -180,7 +180,7 @@ public class Player : MonoBehaviour {
         Debug.DrawLine(transform.position, transform.position + _targetRotationVector);
         if (_targetRotationVector != Vector3.zero) {
             Quaternion targetRotation = Quaternion.LookRotation(_targetRotationVector, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 2.5f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 7.5f);
         }
     }
 
