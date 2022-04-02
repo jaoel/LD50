@@ -6,6 +6,9 @@ public class Player : MonoBehaviour {
     private Rigidbody _rigidBody = null;
 
     [SerializeField]
+    private float _maxHealth = 0.0f;
+
+    [SerializeField]
     private float _maxVelocity = 0.0f;
 
     [SerializeField]
@@ -14,11 +17,18 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float _deceleration = 0.0f;
 
+    [SerializeField]
+    private float _invulnDuration = 0.0f;
+
     private float _velocity = 0.0f;
     private Vector3 _oldDir = Vector3.zero;
 
+    private float _invulnTimer = Mathf.Infinity;
+    private float _health = 0.0f;
+
     private void Awake() {
         _rigidBody = GetComponent<Rigidbody>();
+        _health = _maxHealth;
     }
 
     private void Start() {
@@ -72,5 +82,14 @@ public class Player : MonoBehaviour {
             Vector3 point = ray.GetPoint(distance);
             transform.LookAt(point);
         }
+    }
+
+    public bool ReceiveDamage(float damage) {
+        if (Time.time - _invulnTimer > _invulnDuration) {
+            _invulnTimer = Time.time;
+            _health -= damage;
+        }
+
+        return _health > 0.0f;
     }
 }
