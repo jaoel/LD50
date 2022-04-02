@@ -31,7 +31,7 @@ public class Player : MonoBehaviour {
     private float _invulnTimer = 0.0f;
     private float _health = 0.0f;
 
-    private float _attackCooldown = 0.25f;
+    private float _attackCooldown = 0.5f;
     private float _attackTime = 0f;
 
     private PlayerState _currentState = PlayerState.Moving;
@@ -69,10 +69,6 @@ public class Player : MonoBehaviour {
 
         UpdateMovement();
         UpdateRotation();
-
-        if (Time.time > _attackTime && Input.GetKeyDown(KeyCode.Space)) {
-            Attack();
-        }
     }
 
     private void GatherInput() {
@@ -111,6 +107,7 @@ public class Player : MonoBehaviour {
 
     private void Attack() {
         _attackTime = Time.time;
+        _animator.SetTrigger("attack");
     }
 
     private void UpdateAttackState() {
@@ -120,7 +117,7 @@ public class Player : MonoBehaviour {
     }
 
     private void UpdateMovementState() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (_pressedAttack) {
             SwitchState(PlayerState.Attacking);
             return;
         }
