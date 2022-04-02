@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
     private float _invulnTimer = 0.0f;
     private int _health = 0;
 
-    private float _attackCooldown = 0.5f;
+    private float _attackCooldown = 0.25f;
     private float _attackTime = 0f;
 
     private PlayerState _currentState = PlayerState.Moving;
