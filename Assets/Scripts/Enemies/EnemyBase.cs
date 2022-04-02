@@ -6,14 +6,14 @@ using UnityEngine.AI;
 public class EnemyBase : MonoBehaviour {
     
     [SerializeField]
-    protected float _maxHealth = 0.0f;
+    protected int _maxHealth = 0;
 
     protected NavMeshAgent _navMeshAgent = null;
     protected Rigidbody _rigidBody = null;
 
     protected Player _player = null;
 
-    protected float _health = 0.0f;
+    protected int _health = 0;
 
     protected virtual void Awake() {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -28,6 +28,13 @@ public class EnemyBase : MonoBehaviour {
 
     protected virtual void Update() {
 
+    }
+
+    public void Damage(int damage) {
+        _maxHealth -= damage;
+        if (_maxHealth < 0) {
+            Destroy(gameObject);
+        }
     }
 
     public virtual void SetTarget(GameObject target) {

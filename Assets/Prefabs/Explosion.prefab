@@ -163,4 +163,4 @@ MonoBehaviour:
   _lifeTime: 0
   _explosionRadius: 0
   _explosionForce: 0
-  _damage: 0
+  _damage: 25
