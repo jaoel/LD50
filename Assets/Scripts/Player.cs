@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    private Rigidbody _rigidBody = null;
+    private enum PlayerState {
+        Moving,
+        Attacking,
+    }
+
+    private CharacterController _characterController = null;
 
     [SerializeField]
     private float _maxHealth = 0.0f;
@@ -23,15 +28,22 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private Animator _animator = null;
 
-    private float _velocity = 0.0f;
-    private Vector3 _oldDir = Vector3.zero;
-
     private float _invulnTimer = 0.0f;
     private float _health = 0.0f;
 
+    private float _attackCooldown = 0.25f;
+    private float _attackTime = 0f;
+
+    private PlayerState _currentState = PlayerState.Moving;
+    private Vector3 _inputVector = Vector3.zero;
+    private Vector3 _movementVector = Vector3.zero;
+    private Vector3 _targetRotationVector = Vector3.zero;
+    private bool _pressedAttack = false;
+
     private void Awake() {
-        _rigidBody = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
         _health = _maxHealth;
+        _attackTime = -_attackCooldown;
     }
 
     private void Start() {
@@ -39,47 +51,103 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        Movement();
+        GatherInput();
+
+        switch (_currentState) {
+            case PlayerState.Moving:
+                UpdateMovementState();
+                break;
+            case PlayerState.Attacking:
+                UpdateAttackState();
+                break;
+        }
+
+        UpdateMovement();
+        UpdateRotation();
+
+        if (Time.time > _attackTime && Input.GetKeyDown(KeyCode.Space)) {
+            Attack();
+        }
     }
 
-    private void Movement() {
-        Vector3 forwardDir = Vector3.zero;
-        Vector3 rightDir = Vector3.zero;
+    private void GatherInput() {
+        _inputVector.x = Input.GetAxisRaw("Horizontal");
+        _inputVector.y = 0f;
+        _inputVector.z = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
-            forwardDir = Camera.main.transform.forward;
-        } else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
-            forwardDir = -Camera.main.transform.forward;
+        float deadzone = 0.1f;
+        if (Mathf.Abs(_inputVector.x) < deadzone) {
+            _inputVector.x = 0f;
+        }
+        if (Mathf.Abs(_inputVector.y) < deadzone) {
+            _inputVector.y = 0f;
         }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
-            rightDir = Camera.main.transform.right;
-        } else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
-            rightDir = -Camera.main.transform.right;
+        _pressedAttack = Input.GetKeyDown(KeyCode.Space);
+    }
+
+    private void SwitchState(PlayerState nextState) {
+        switch (nextState) {
+            case PlayerState.Moving:
+                break;
+            case PlayerState.Attacking:
+                Attack();
+                break;
         }
 
-        Vector3 direction = (new Vector3(forwardDir.x, 0.0f, forwardDir.z) + new Vector3(rightDir.x, 0.0f, rightDir.z)).normalized;
+        _currentState = nextState;
+    }
 
-        if (direction.sqrMagnitude > 0.0f) {
-            _velocity += _acceleration * Time.deltaTime;
-            _velocity = Mathf.Clamp(_velocity, 0.0f, _maxVelocity);
+    private void Attack() {
+        _attackTime = Time.time;
+    }
+
+    private void UpdateAttackState() {
+        if (Time.time > _attackTime + _attackCooldown) {
+            SwitchState(PlayerState.Moving);
         }
-        else {
-            _velocity -= _deceleration * Time.deltaTime;
-            _velocity = Mathf.Clamp(_velocity, 0.0f, _velocity);
-            direction = _oldDir;
+    }
+
+    private Vector3 _currentVelocity = Vector3.zero;
+    private void UpdateMovementState() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            SwitchState(PlayerState.Attacking);
+            return;
         }
 
+        Vector3 cameraInputVector = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f) * _inputVector.normalized;
+        _movementVector = cameraInputVector * _maxVelocity;
+        _targetRotationVector = cameraInputVector;
+    }
 
-        if (direction != Vector3.zero) {
-            _oldDir = direction;
+    private float AccelDecel(float currentSpeed, float targetSpeed, float acceleration, float deceleration) {
+        float delta = targetSpeed - currentSpeed;
+
+        if (delta > 0f) {
+            return Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+        } else {
+            return Mathf.MoveTowards(currentSpeed, targetSpeed, deceleration * Time.deltaTime);
+        }
+    }
+
+    private void UpdateMovement() {
+
+        _currentVelocity.x = AccelDecel(_currentVelocity.x, _movementVector.x, _acceleration, _deceleration);
+        _currentVelocity.z = AccelDecel(_currentVelocity.z, _movementVector.z, _acceleration, _deceleration);
+
+        if (_currentVelocity.magnitude > _maxVelocity) {
+            _currentVelocity = _currentVelocity.normalized * _maxVelocity;
         }
 
-        direction.y = 1.0f;
-        _rigidBody.velocity = Vector3.Scale(direction.normalized, new Vector3(_velocity, Physics.gravity.y, _velocity));
-        transform.forward = new Vector3(_oldDir.x, 0.0f, _oldDir.z);
-        
-        _animator.SetFloat("speed", Mathf.Clamp01(_velocity / _maxVelocity));
+        _animator.SetFloat("speed", Mathf.Clamp01(_currentVelocity.magnitude / _maxVelocity));
+        _characterController.Move(_currentVelocity * Time.deltaTime + Vector3.down * 10f);
+    }
+
+    private void UpdateRotation() {
+        if (_targetRotationVector != Vector3.zero) {
+            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.forward, _targetRotationVector);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 2.5f);
+        }
     }
 
     private void RotateWithMouse() {
