@@ -26,6 +26,10 @@ public class SuicideEnemy : EnemyBase
     protected override void Update() {
         base.Update();
 
+        if (IsStunned) {
+            return;
+        }
+
         if (_health <= 0.0f) {
             return;
         }

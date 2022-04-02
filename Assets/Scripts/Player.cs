@@ -11,6 +11,9 @@ public class Player : MonoBehaviour {
     private CharacterController _characterController = null;
 
     [SerializeField]
+    protected GameObject _hitEffectPrefab = null;
+
+    [SerializeField]
     private GameObject _hitDiscTemplate = null;
 
     [SerializeField]
@@ -122,8 +125,12 @@ public class Player : MonoBehaviour {
         EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
         foreach (var enemy in enemies) {
             Vector3 toEnemy = enemy.transform.position - transform.position;
-            if (toEnemy.magnitude < 4f && Vector3.Angle(transform.forward, toEnemy) < 100f) {
+            if (toEnemy.magnitude < 2.5f && Vector3.Angle(transform.forward, toEnemy) < 100f) {
                 enemy.Damage(10);
+                enemy.Knockback(toEnemy.normalized * 10f);
+
+                GameObject effect = Instantiate(_hitEffectPrefab, enemy.CenterPos(), Quaternion.FromToRotation(Vector3.forward, toEnemy), null);
+                Destroy(effect, 2f);
             }
         }
     }

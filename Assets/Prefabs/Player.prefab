@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4978e2397f5b21047a792e92c52a9061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitEffectPrefab: {fileID: 9019703499850438547, guid: ca2a51a9e66ebd847b731673a9b64b71, type: 3}
   _hitDiscTemplate: {fileID: 353690237871108367}
   _maxHealth: 100
   _maxVelocity: 5
@@ -314,6 +315,18 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2c6f541549d70b044a905c1e45b24796, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c6f541549d70b044a905c1e45b24796, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.645686
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c6f541549d70b044a905c1e45b24796, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.645686
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c6f541549d70b044a905c1e45b24796, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.645686
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c6f541549d70b044a905c1e45b24796, type: 3}
       propertyPath: m_LocalPosition.x
