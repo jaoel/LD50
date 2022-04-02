@@ -48,7 +48,8 @@ public class Player : MonoBehaviour {
         }
 
         Vector3 direction = (new Vector3(forwardDir.x, 0.0f, forwardDir.z) + new Vector3(rightDir.x, 0.0f, rightDir.z)).normalized;
-        
+        direction.y = 1.0f;
+
         if (direction.sqrMagnitude > 0.0f) {
             _velocity += _acceleration * Time.deltaTime;
             _velocity = Mathf.Clamp(_velocity, 0.0f, _maxVelocity);
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour {
             direction = _oldDir;
         }
 
-        _rigidBody.velocity = Vector3.Scale(direction, new Vector3(_velocity, 0, _velocity));
+        _rigidBody.velocity = Vector3.Scale(direction, new Vector3(_velocity, Physics.gravity.y, _velocity));
         _oldDir = direction;
     }
 
