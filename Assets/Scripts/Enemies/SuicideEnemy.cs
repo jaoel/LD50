@@ -21,8 +21,6 @@ public class SuicideEnemy : EnemyBase
 
     protected override void Start() {
         base.Start();
-
-        SetTarget(_player.gameObject);
     }
 
     protected override void Update() {
@@ -39,13 +37,17 @@ public class SuicideEnemy : EnemyBase
         if (Time.time - _suicideStartTime > _suicideChargeDuration) {
             PerformSuicide();
         }
+
+        if (_navMeshAgent.enabled) {
+            SetTarget(_player.gameObject);
+        }
     }
 
     private void StartSuicide() {
         _suicideStartTime = Time.time;
 
-        _navMeshAgent.isStopped = true;
         _navMeshAgent.ResetPath();
+        _navMeshAgent.enabled = false; 
     }
 
     private void PerformSuicide() {
