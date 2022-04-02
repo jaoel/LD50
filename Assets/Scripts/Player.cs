@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
     private Vector3 _movementVector = Vector3.zero;
     private Vector3 _targetRotationVector = Vector3.zero;
     private bool _pressedAttack = false;
+    private Vector3 _currentVelocity = Vector3.zero;
 
     private void Awake() {
         _characterController = GetComponent<CharacterController>();
@@ -52,6 +53,8 @@ public class Player : MonoBehaviour {
 
     private void Update() {
         GatherInput();
+        _movementVector = Vector3.zero;
+        _targetRotationVector = Vector3.zero;
 
         switch (_currentState) {
             case PlayerState.Moving:
@@ -108,7 +111,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private Vector3 _currentVelocity = Vector3.zero;
     private void UpdateMovementState() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             SwitchState(PlayerState.Attacking);
@@ -140,7 +142,7 @@ public class Player : MonoBehaviour {
         }
 
         _animator.SetFloat("speed", Mathf.Clamp01(_currentVelocity.magnitude / _maxVelocity));
-        _characterController.Move(_currentVelocity * Time.deltaTime + Vector3.down * 10f);
+        _characterController.Move(_currentVelocity * Time.deltaTime + Physics.gravity * Time.deltaTime);
     }
 
     private void UpdateRotation() {
