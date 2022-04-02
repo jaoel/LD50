@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6044765343194779509}
   - component: {fileID: 6044765343194779504}
   - component: {fileID: 6044765343194779511}
-  - component: {fileID: 6044765343194779510}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6044765343194779510
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6044765343194779508}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6044765344478262004
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +94,6 @@ GameObject:
   - component: {fileID: 6044765344478262005}
   - component: {fileID: 6044765344478262000}
   - component: {fileID: 6044765344478262007}
-  - component: {fileID: 6044765344478262006}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -181,20 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6044765344478262006
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6044765344478262004}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6044765344538847180
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +179,7 @@ GameObject:
   - component: {fileID: 6044765344538847176}
   - component: {fileID: 6044765344538847183}
   - component: {fileID: 1343506042524048660}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SuicideEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,6 +270,7 @@ MonoBehaviour:
   _suicideDistance: 2
   _explosionRadius: 5
   _suicideChargeDuration: 1
+  _explosionPrefab: {fileID: 5178415089178858179, guid: 4998bae5daf41e444b42c987d8f51e8e, type: 3}
 --- !u!1 &6044765344792883936
 GameObject:
   m_ObjectHideFlags: 0

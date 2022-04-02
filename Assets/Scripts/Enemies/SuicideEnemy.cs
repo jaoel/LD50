@@ -8,18 +8,15 @@ public class SuicideEnemy : EnemyBase
     private float _suicideDistance = 0.0f;
 
     [SerializeField]
-    private float _explosionRadius = 0.0f;
-
-    [SerializeField]
     private float _suicideChargeDuration = 0.0f;
 
+    [SerializeField]
+    private GameObject _explosionPrefab = null;
+
     private float _suicideStartTime = Mathf.Infinity;
-    private float _defaultSpeed = 0.0f;
 
     protected override void Awake() {
         base.Awake();
-
-        _defaultSpeed = _navMeshAgent.speed;
     }
 
     protected override void Start() {
@@ -30,6 +27,10 @@ public class SuicideEnemy : EnemyBase
 
     protected override void Update() {
         base.Update();
+
+        if (_health <= 0.0f) {
+            return;
+        }
 
         if (_suicideStartTime == Mathf.Infinity && GetDistanceToPlayer() <= _suicideDistance) {
             StartSuicide();
@@ -50,7 +51,11 @@ public class SuicideEnemy : EnemyBase
     private void PerformSuicide() {
         _health = 0.0f;
 
-        KillMe();
-        Destroy(gameObject);
+        GameObject explosionGO = Instantiate(_explosionPrefab, transform.position + new Vector3(0.0f, 0.5f, 0.0f), Quaternion.identity);
+        Explosion explosion = explosionGO.GetComponent<Explosion>();
+
+        _navMeshAgent.enabled = false;
+        _rigidBody.isKinematic = false;
+        _rigidBody.AddExplosionForce(explosion.Force, transform.position + transform.forward * 0.5f, explosion.Radius);
     }
 }

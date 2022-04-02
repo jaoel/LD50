@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     private float _velocity = 0.0f;
     private Vector3 _oldDir = Vector3.zero;
 
-    private float _invulnTimer = Mathf.Infinity;
+    private float _invulnTimer = 0.0f;
     private float _health = 0.0f;
 
     private void Awake() {
@@ -91,5 +91,9 @@ public class Player : MonoBehaviour {
         }
 
         return _health > 0.0f;
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        
     }
 }
