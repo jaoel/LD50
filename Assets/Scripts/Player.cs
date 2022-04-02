@@ -20,6 +20,9 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float _invulnDuration = 0.0f;
 
+    [SerializeField]
+    private Animator _animator = null;
+
     private float _velocity = 0.0f;
     private Vector3 _oldDir = Vector3.zero;
 
@@ -75,6 +78,8 @@ public class Player : MonoBehaviour {
         direction.y = 1.0f;
         _rigidBody.velocity = Vector3.Scale(direction, new Vector3(_velocity, Physics.gravity.y, _velocity));
         transform.forward = new Vector3(_oldDir.x, 0.0f, _oldDir.z);
+        
+        _animator.SetFloat("speed", Mathf.Clamp01(_velocity / _maxVelocity));
     }
 
     private void RotateWithMouse() {
