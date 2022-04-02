@@ -36,10 +36,12 @@ public class Player : MonoBehaviour {
 
     private PlayerState _currentState = PlayerState.Moving;
     private Vector3 _inputVector = Vector3.zero;
+    private Vector3 _lastInputVector = Vector3.zero;
     private Vector3 _movementVector = Vector3.zero;
     private Vector3 _targetRotationVector = Vector3.zero;
     private bool _pressedAttack = false;
     private Vector3 _currentVelocity = Vector3.zero;
+    private Camera _mainCamera = null;
 
     private void Awake() {
         _characterController = GetComponent<CharacterController>();
@@ -74,9 +76,15 @@ public class Player : MonoBehaviour {
     }
 
     private void GatherInput() {
+        _lastInputVector = _inputVector;
+
         _inputVector.x = Input.GetAxisRaw("Horizontal");
         _inputVector.y = 0f;
         _inputVector.z = Input.GetAxisRaw("Vertical");
+
+        if (Vector3.Distance(_lastInputVector, _inputVector) > 0.25f) {
+            _mainCamera = Camera.main;
+        }
 
         float deadzone = 0.1f;
         if (Mathf.Abs(_inputVector.x) < deadzone) {
@@ -117,7 +125,8 @@ public class Player : MonoBehaviour {
             return;
         }
 
-        Vector3 cameraInputVector = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f) * _inputVector.normalized;
+        Camera camera = _mainCamera != null ? _mainCamera : Camera.main;
+        Vector3 cameraInputVector = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f) * _inputVector.normalized;
         _movementVector = cameraInputVector * _maxVelocity;
         _targetRotationVector = cameraInputVector;
     }
@@ -146,19 +155,10 @@ public class Player : MonoBehaviour {
     }
 
     private void UpdateRotation() {
+        Debug.DrawLine(transform.position, transform.position + _targetRotationVector);
         if (_targetRotationVector != Vector3.zero) {
-            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.forward, _targetRotationVector);
+            Quaternion targetRotation = Quaternion.LookRotation(_targetRotationVector, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 2.5f);
-        }
-    }
-
-    private void RotateWithMouse() {
-        Plane playerGroundPlane = new Plane(Vector3.up, new Vector3(transform.position.x, transform.position.y, transform.position.z));
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        float distance;
-        if (playerGroundPlane.Raycast(ray, out distance)) {
-            Vector3 point = ray.GetPoint(distance);
-            transform.LookAt(point);
         }
     }
 
