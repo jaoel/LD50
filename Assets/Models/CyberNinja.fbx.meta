@@ -2,7 +2,13 @@ fileFormatVersion: 2
 guid: ec5eafbb10c668743a66ea177bedae5c
 ModelImporter:
   serializedVersion: 21202
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 2800880185924972654
+    second: NarutoRun
+  - first:
+      74: -8312538846858333772
+    second: T-Pose
   externalObjects: {}
   materials:
     materialImportMode: 2
