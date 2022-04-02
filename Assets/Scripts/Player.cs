@@ -11,7 +11,10 @@ public class Player : MonoBehaviour {
     private CharacterController _characterController = null;
 
     [SerializeField]
-    private float _maxHealth = 0.0f;
+    private GameObject _hitDiscTemplate = null;
+
+    [SerializeField]
+    private int _maxHealth = 0;
 
     [SerializeField]
     private float _maxVelocity = 0.0f;
@@ -29,7 +32,7 @@ public class Player : MonoBehaviour {
     private Animator _animator = null;
 
     private float _invulnTimer = 0.0f;
-    private float _health = 0.0f;
+    private int _health = 0;
 
     private float _attackCooldown = 0.5f;
     private float _attackTime = 0f;
@@ -108,6 +111,21 @@ public class Player : MonoBehaviour {
     private void Attack() {
         _attackTime = Time.time;
         _animator.SetTrigger("attack");
+
+        GameObject discCopy = Instantiate(_hitDiscTemplate);
+        discCopy.SetActive(true);
+        discCopy.transform.SetParent(null);
+        discCopy.transform.position = _hitDiscTemplate.transform.position;
+        discCopy.transform.rotation = _hitDiscTemplate.transform.rotation;
+        Destroy(discCopy, _attackCooldown);
+
+        EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
+        foreach (var enemy in enemies) {
+            Vector3 toEnemy = enemy.transform.position - transform.position;
+            if (toEnemy.magnitude < 4f && Vector3.Angle(transform.forward, toEnemy) < 100f) {
+                enemy.Damage(10);
+            }
+        }
     }
 
     private void UpdateAttackState() {
@@ -159,7 +177,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public bool ReceiveDamage(float damage) {
+    public bool ReceiveDamage(int damage) {
         if (Time.time - _invulnTimer > _invulnDuration) {
             _invulnTimer = Time.time;
             _health -= damage;

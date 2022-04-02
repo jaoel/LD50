@@ -51,7 +51,7 @@ public class SuicideEnemy : EnemyBase
     }
 
     private void PerformSuicide() {
-        _health = 0.0f;
+        _health = 0;
 
         GameObject explosionGO = Instantiate(_explosionPrefab, transform.position + new Vector3(0.0f, 0.5f, 0.0f), Quaternion.identity);
         Explosion explosion = explosionGO.GetComponent<Explosion>();

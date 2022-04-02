@@ -14,7 +14,7 @@ public class Explosion : MonoBehaviour {
     private float _explosionForce = 0.0f;
 
     [SerializeField]
-    private float _damage = 0.0f;
+    private int _damage = 0;
 
     private int _layerMask = -1;
 
