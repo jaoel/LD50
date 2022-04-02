@@ -22,6 +22,11 @@ public class LevelManager : MonoBehaviour {
 
     }
 
+    public void StartLevel() {
+        _currentWave = 0;
+        TriggerSpawn();
+    }
+
     public void TriggerSpawn() {
         _currentWave++;
 
