@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour {
     private static GameManager _instance = null;
     private LevelManager _levelManager = null;
 
+    public static GameManager Instance => _instance;
+    public LevelManager LevelManager => _levelManager;
+
     private void Awake() {
         if (_instance == null) {
             _instance = this;
@@ -17,7 +20,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update() {

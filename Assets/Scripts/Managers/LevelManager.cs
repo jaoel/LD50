@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour {
 
     private int _currentWave = 0;
 
+    public int CurrentWave => _currentWave;
+
     private void Awake() {
         _currentWave = 0;
     }
