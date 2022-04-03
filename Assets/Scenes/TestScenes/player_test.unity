@@ -16804,6 +16804,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3083368223449742872, guid: 1e9581fa93a7e8e4d915d40406210b35, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e66551cd6fdc9438549eea92d46adf, type: 2}
     - target: {fileID: 7828972532330660534, guid: 1e9581fa93a7e8e4d915d40406210b35, type: 3}
       propertyPath: m_Name
       value: Extractor
