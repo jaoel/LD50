@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 4
-  _maxHealth: 1
+  _maxHealth: 20
   _hitEffectPrefab: {fileID: 9019703499850438547, guid: ca2a51a9e66ebd847b731673a9b64b71, type: 3}
 --- !u!1001 &588254888607714398
 PrefabInstance:
