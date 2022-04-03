@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour {
 
+
+    [SerializeField]
+    private float _moveSpeed = 1.0f;
+
     [SerializeField]
     protected int _maxHealth = 0;
 
@@ -24,6 +28,9 @@ public class EnemyBase : MonoBehaviour {
     protected virtual void Awake() {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _rigidBody = GetComponent<Rigidbody>();
+        if (_navMeshAgent != null) {
+            _navMeshAgent.speed = _moveSpeed;
+        }
     }
 
     protected virtual void Start() {

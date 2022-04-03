@@ -13,6 +13,8 @@ public class SuicideEnemy : EnemyBase
     [SerializeField]
     private GameObject _explosionPrefab = null;
 
+    public Animator animator;
+
     private float _suicideStartTime = Mathf.Infinity;
 
     protected override void Awake() {
@@ -56,17 +58,21 @@ public class SuicideEnemy : EnemyBase
         _suicideStartTime = Time.time;
 
         _navMeshAgent.ResetPath();
-        _navMeshAgent.enabled = false; 
+        _navMeshAgent.enabled = false;
+
+        animator.SetTrigger("explode");
     }
 
     private void PerformSuicide() {
         _health = 0;
 
-        GameObject explosionGO = Instantiate(_explosionPrefab, transform.position + new Vector3(0.0f, 0.5f, 0.0f), Quaternion.identity);
+        GameObject explosionGO = Instantiate(_explosionPrefab, transform.position + new Vector3(0.0f, 0.5f, 0.0f), Quaternion.identity, null);
         Explosion explosion = explosionGO.GetComponent<Explosion>();
 
-        _navMeshAgent.enabled = false;
-        _rigidBody.isKinematic = false;
-        _rigidBody.AddExplosionForce(explosion.Force, transform.position + transform.forward * 0.5f, explosion.Radius);
+        //_navMeshAgent.enabled = false;
+        //_rigidBody.isKinematic = false;
+        //_rigidBody.AddExplosionForce(explosion.Force, transform.position + transform.forward * 0.5f, explosion.Radius);
+
+        Destroy(gameObject);
     }
 }
