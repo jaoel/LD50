@@ -15,21 +15,30 @@ public class Shaker : MonoBehaviour {
     }
 
     float t = 0f;
+    bool canUpdate = true;
     private void Update() {
-        _shakeAmount -= Time.deltaTime * 2f;
-        _intensity -= Time.deltaTime;
+        if (canUpdate) {
+            _shakeAmount -= Time.deltaTime * 2f;
+            _intensity -= Time.deltaTime;
 
-        if (_shakeAmount < 0f) {
-            _shakeAmount = 0f;
+            if (_shakeAmount < 0f) {
+                _shakeAmount = 0f;
+            }
+
+            if (_intensity < 0f) {
+                _intensity = 0f;
+            }
+
+            t += Time.deltaTime * _intensity;
+            Vector3 shakeVector = new Vector3(Mathf.PerlinNoise(t, 10f), Mathf.PerlinNoise(t, t), Mathf.PerlinNoise(0, t)) * 2f - Vector3.one;
+            target.localPosition = shakeVector * _shakeAmount;
+            
+            canUpdate = false;
         }
+    }
 
-        if (_intensity < 0f) {
-            _intensity = 0f;
-        }
-
-        t += Time.deltaTime * _intensity;
-        Vector3 shakeVector = new Vector3(Mathf.PerlinNoise(t, 10f), Mathf.PerlinNoise(t, t), Mathf.PerlinNoise(0, t)) * 2f - Vector3.one;
-        target.localPosition = shakeVector * _shakeAmount;
+    private void LateUpdate() {
+        canUpdate = true;
     }
 
 }
