@@ -25,13 +25,14 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject);
     }
 
     private void Update() {
         if (gameover && Input.anyKeyDown) {
             Time.timeScale = 1f;
             gameOverCanvas.SetActive(false);
+            gameover = false;
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.buildIndex);
         }
