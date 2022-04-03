@@ -16,7 +16,7 @@ public class StartLevel : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (GameManager.Instance.LevelManager.CurrentWave == 0) {
+        if (!GameManager.Instance.LevelManager.Started) {
             GameManager.Instance.LevelManager.StartLevel();
         }
     }

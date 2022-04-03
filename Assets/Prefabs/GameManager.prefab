@@ -57,3 +57,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc541875e071834f9afe5fe349c80a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnDefinitions: {fileID: 11400000, guid: f82bd24eae90d6742b1a6493b8998033, type: 2}
