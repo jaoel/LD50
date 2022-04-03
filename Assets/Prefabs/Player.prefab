@@ -399,6 +399,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491528550398385486}
     m_Modifications:
+    - target: {fileID: 891430013739001034, guid: 4dc4cbe7c0133f548be37df8d91df867, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 452538e35d0097943a333bf0b3ec4743, type: 2}
     - target: {fileID: 1030924281715792766, guid: 4dc4cbe7c0133f548be37df8d91df867, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -447,6 +451,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CyberNinja
       objectReference: {fileID: 0}
+    - target: {fileID: 8105153667968673491, guid: 4dc4cbe7c0133f548be37df8d91df867, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 452538e35d0097943a333bf0b3ec4743, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dc4cbe7c0133f548be37df8d91df867, type: 3}
 --- !u!4 &1385537005721502179 stripped

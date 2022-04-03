@@ -45,7 +45,7 @@ public class EnemyBase : MonoBehaviour {
     public virtual void Damage(int damage) {
         _maxHealth -= damage;
         _stunnedTime = Time.time + _stunDuration;
-        if (_navMeshAgent != null) {
+        if (_navMeshAgent != null && _navMeshAgent.isOnNavMesh) {
             _navMeshAgent.ResetPath();
         }
         if (_maxHealth <= 0) {

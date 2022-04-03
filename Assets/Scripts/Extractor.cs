@@ -9,6 +9,8 @@ class Extractor : MonoBehaviour {
 
     public GameObject extractionText;
 
+    private bool isExtracting = false;
+
     public void Start() {
         
     }
@@ -20,13 +22,20 @@ class Extractor : MonoBehaviour {
     }
 
     public void BeginExtraction() {
-        _animator.SetBool("active", true);
-        extractionText.SetActive(false);
+        if (!isExtracting) {
+            _animator.SetBool("active", true);
+            extractionText.SetActive(false);
+            GameManager.Instance.LevelManager.StartLevel();
+            isExtracting = true;
+        }
     }
 
     public void EndExtraction() {
-        _animator.SetBool("active", false);
-        extractionText.SetActive(true);
+        if (isExtracting) {
+            _animator.SetBool("active", false);
+            extractionText.SetActive(true);
+            isExtracting = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
