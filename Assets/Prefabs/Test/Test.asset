@@ -15,9 +15,9 @@ MonoBehaviour:
   definitions:
   - enemyPrefab: {fileID: 1491528550398385482, guid: 3928d672bb72f574b91ad2232055b4c3, type: 3}
     spawnStartTime: 0
-    spawnsPerMinute: 0
+    spawnsPerMinute: 10
     newSpawnsPerMinute: 5
   - enemyPrefab: {fileID: 6044765344538847180, guid: ee078995b1a13c8458d68e4810ce45a9, type: 3}
-    spawnStartTime: 0
-    spawnsPerMinute: 100
+    spawnStartTime: 10
+    spawnsPerMinute: 3
     newSpawnsPerMinute: 3
