@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
     private float _invulnTimer = 0.0f;
     private int _health = 0;
 
-    private float _attackCooldown = 0.1f;
+    private float _attackCooldown = .2f;
     private float _attackTime = 0f;
 
     private PlayerState _currentState = PlayerState.Moving;
@@ -203,6 +203,10 @@ public class Player : MonoBehaviour {
         }
 
         return _health > 0.0f;
+    }
+
+    public virtual Vector3 CenterPos() {
+        return transform.position + Vector3.up;
     }
 
     private void OnCollisionEnter(Collision collision) {

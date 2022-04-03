@@ -24,12 +24,11 @@ public class EnemyBase : MonoBehaviour {
     protected virtual void Awake() {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _rigidBody = GetComponent<Rigidbody>();
-
-        _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
-        _health = _maxHealth;
     }
 
     protected virtual void Start() {
+        _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+        _health = _maxHealth;
     }
 
     protected virtual void Update() {
