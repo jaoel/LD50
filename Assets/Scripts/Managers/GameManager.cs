@@ -36,9 +36,11 @@ public class GameManager : MonoBehaviour {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.buildIndex);
         }
+#if !UNITY_WEBGL
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }
+#endif
     }
 
     public static void GameOver() {
