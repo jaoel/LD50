@@ -17,6 +17,6 @@ public class TargetDummy : EnemyBase
     }
 
     public override void Damage(int damage) {
-        base.Damage(0);
+        base.Damage(100);
     }
 }

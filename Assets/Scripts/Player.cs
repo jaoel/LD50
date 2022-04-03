@@ -134,6 +134,7 @@ public class Player : MonoBehaviour {
         Destroy(discCopy, _attackCooldown);
 
         EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
+        bool hit = false;
         foreach (var enemy in enemies) {
             Vector3 toEnemy = enemy.transform.position - transform.position;
             if (toEnemy.magnitude < 2.5f && Vector3.Angle(transform.forward, toEnemy) < 100f) {
@@ -142,9 +143,13 @@ public class Player : MonoBehaviour {
 
                 GameObject effect = Instantiate(_hitEffectPrefab, enemy.CenterPos(), Quaternion.FromToRotation(Vector3.forward, toEnemy), null);
                 Destroy(effect, 2f);
+                hit = true;
             }
         }
         _chain = (_chain + 1) % 2;
+        if (hit) {
+            Shaker.Shake(0.25f, 25f);
+        }
     }
 
     private void UpdateAttackState() {
