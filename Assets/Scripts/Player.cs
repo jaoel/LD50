@@ -111,15 +111,26 @@ public class Player : MonoBehaviour {
         _currentState = nextState;
     }
 
+    private int _chain = 0;
     private void Attack() {
         _attackTime = Time.time;
         _animator.SetTrigger("attack");
+        _animator.SetInteger("chain", _chain);
 
         GameObject discCopy = Instantiate(_hitDiscTemplate);
         discCopy.SetActive(true);
         discCopy.transform.SetParent(null);
         discCopy.transform.position = _hitDiscTemplate.transform.position;
         discCopy.transform.rotation = _hitDiscTemplate.transform.rotation;
+        if (_chain % 2 == 1) {
+            Vector3 euler = discCopy.transform.localEulerAngles;
+            euler.Scale(new Vector3(1f, 1f, -1f));
+            discCopy.transform.localEulerAngles = euler;
+
+            Vector3 scale = discCopy.transform.localScale;
+            scale.Scale(new Vector3(-1f, 1f, 1f));
+            discCopy.transform.localScale = scale;
+        }
         Destroy(discCopy, _attackCooldown);
 
         EnemyBase[] enemies = FindObjectsOfType<EnemyBase>();
@@ -133,6 +144,7 @@ public class Player : MonoBehaviour {
                 Destroy(effect, 2f);
             }
         }
+        _chain = (_chain + 1) % 2;
     }
 
     private void UpdateAttackState() {
