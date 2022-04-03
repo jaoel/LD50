@@ -17,6 +17,8 @@ MonoBehaviour:
     WaveSpawns:
     - Count: 5
       EnemyPrefab: {fileID: 6044765344538847180, guid: ee078995b1a13c8458d68e4810ce45a9, type: 3}
+    - Count: 5
+      EnemyPrefab: {fileID: 1491528550398385482, guid: 3928d672bb72f574b91ad2232055b4c3, type: 3}
   - Wave: 2
     WaveSpawns:
     - Count: 10
