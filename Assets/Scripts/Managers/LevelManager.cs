@@ -26,7 +26,14 @@ public class LevelManager : MonoBehaviour {
 
     public void StartLevel() {
         _currentWave = 0;
-        TriggerSpawn();
+        StartCoroutine(SpawnNextWaveCoroutine());
+    }
+
+    IEnumerator SpawnNextWaveCoroutine() {
+        while (true) {
+            TriggerSpawn();
+            yield return new WaitForSeconds(30f);
+        }
     }
 
     public void TriggerSpawn() {
