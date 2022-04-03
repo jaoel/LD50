@@ -84,6 +84,14 @@ public class EnemyBase : MonoBehaviour {
         return Vector3.Distance(transform.position, _player.transform.position);
     }
 
+    protected float GetDistanceToExtractor() {
+        if (Extractor.Instance == null) {
+            return Mathf.Infinity;
+        }
+
+        return Vector3.Distance(transform.position, Extractor.Instance.transform.position);
+    }
+
     protected void KillMe() {
 
     }

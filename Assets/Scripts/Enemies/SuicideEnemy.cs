@@ -34,7 +34,8 @@ public class SuicideEnemy : EnemyBase
             return;
         }
 
-        if (_suicideStartTime == Mathf.Infinity && GetDistanceToPlayer() <= _suicideDistance) {
+        bool inRangeForAttack = GetDistanceToPlayer() <= _suicideDistance || GetDistanceToExtractor() <= _suicideDistance;
+        if (_suicideStartTime == Mathf.Infinity && inRangeForAttack) {
             StartSuicide();
         }
 
@@ -43,7 +44,11 @@ public class SuicideEnemy : EnemyBase
         }
 
         if (_navMeshAgent.enabled) {
-            SetTarget(_player.gameObject);
+            if (GetDistanceToPlayer() < 10f) {
+                SetTarget(_player.gameObject);
+            } else if (Extractor.Instance != null) {
+                SetTarget(Extractor.Instance.gameObject);
+            }
         }
     }
 

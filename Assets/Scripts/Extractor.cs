@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 class Extractor : MonoBehaviour {
+    public static Extractor Instance { get; private set; }
+
     [SerializeField]
     private Animator _animator = null;
 
@@ -11,14 +14,11 @@ class Extractor : MonoBehaviour {
 
     private bool isExtracting = false;
 
-    public void Start() {
-        
+    public void Awake() {
+        Instance = this;
     }
 
     private void Update() {
-        if (_maxHealth <= 0) {
-            Debug.LogError("YOU LOST!");
-        }
     }
 
     public void BeginExtraction() {
@@ -42,5 +42,16 @@ class Extractor : MonoBehaviour {
         if (other.TryGetComponent(out Player player)) {
             BeginExtraction();
         }
+    }
+
+    internal void ReceiveDamage(int damage) {
+        _maxHealth -= damage;
+        if (_maxHealth <= 0) {
+            Debug.LogError("YOU LOST!");
+        }
+    }
+
+    internal Vector3 CenterPos() {
+        return transform.position + Vector3.up;
     }
 }

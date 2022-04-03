@@ -10,6 +10,7 @@ public static class Layers {
     public static int Enemies = LayerMask.NameToLayer("Enemies");
     public static int Props = LayerMask.NameToLayer("Props");
     public static int PostProcess = LayerMask.NameToLayer("PostProcess");
+    public static int Extractor = LayerMask.NameToLayer("Extractor");
 
     public static int GetMask(int layer) {
         return 1 << layer;

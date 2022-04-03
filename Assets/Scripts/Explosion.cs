@@ -23,7 +23,7 @@ public class Explosion : MonoBehaviour {
     public float Radius => _explosionRadius;
 
     private void Awake() {
-        _layerMask = Layers.GetMask(Layers.Player, Layers.Enemies, Layers.Props);
+        _layerMask = Layers.GetMask(Layers.Player, Layers.Enemies, Layers.Props, Layers.Extractor);
 
         Destroy(gameObject, _lifeTime);
     }
@@ -40,13 +40,14 @@ public class Explosion : MonoBehaviour {
     }
 
     private void HandleCollider(Collider other) {
-        if (other.gameObject.layer == Layers.Player) {
-            Player player = other.gameObject.GetComponent<Player>();
+        if (other.TryGetComponent(out Player player)) {
             player.ReceiveDamage(_damage);
-
         }
-        else if (other.gameObject.layer == Layers.Enemies) {
-            EnemyBase enemy = other.gameObject.GetComponent<EnemyBase>();
+        else if (other.TryGetComponent(out EnemyBase enemy)) {
+            //enemy.Damage(_damage);
+        }
+        else if (other.TryGetComponent(out Extractor extractor)) {
+            extractor.ReceiveDamage(_damage);
         }
         else if (other.gameObject.layer == Layers.Props) {
             other.attachedRigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);

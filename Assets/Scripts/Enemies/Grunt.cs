@@ -55,10 +55,20 @@ public class Grunt : EnemyBase {
             GameObject effect = Instantiate(_hitEffectPrefab, _player.CenterPos(), Quaternion.FromToRotation(Vector3.forward, toEnemy), null);
             Destroy(effect, 2f);
         }
+
+        if (Extractor.Instance != null) {
+            toEnemy = Extractor.Instance.transform.position - transform.position;
+            if (toEnemy.magnitude < 2.5f && Vector3.Angle(transform.forward, toEnemy) < 100f) {
+                Extractor.Instance.ReceiveDamage(10);
+
+                GameObject effect = Instantiate(_hitEffectPrefab, Extractor.Instance.CenterPos(), Quaternion.FromToRotation(Vector3.forward, toEnemy), null);
+                Destroy(effect, 2f);
+            }
+        }
     }
 
     private void UpdateMovementState() {
-        if (GetDistanceToPlayer() <= 1.0f) {
+        if (GetDistanceToPlayer() <= 1.0f || GetDistanceToExtractor() <= 2f) {
             SwitchState(PlayerState.Attacking);
             Attack();
 
@@ -66,7 +76,11 @@ public class Grunt : EnemyBase {
         }
 
         if (_navMeshAgent.enabled) {
-            SetTarget(_player.gameObject);
+            if (Vector3.Distance(_player.transform.position, transform.position) < 10f) {
+                SetTarget(_player.gameObject);
+            } else if (Extractor.Instance != null) {
+                SetTarget(Extractor.Instance.gameObject);
+            }
         }
     }
 

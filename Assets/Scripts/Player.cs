@@ -8,6 +8,8 @@ public class Player : MonoBehaviour {
         Attacking,
     }
 
+    public static Player Instance { get; private set; }
+
     private CharacterController _characterController = null;
 
     [SerializeField]
@@ -50,6 +52,7 @@ public class Player : MonoBehaviour {
     private Camera _mainCamera = null;
 
     private void Awake() {
+        Instance = this;
         _characterController = GetComponent<CharacterController>();
         _health = _maxHealth;
         _attackTime = -_attackCooldown;
