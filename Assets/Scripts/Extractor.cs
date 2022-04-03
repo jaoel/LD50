@@ -10,17 +10,24 @@ class Extractor : MonoBehaviour {
     [SerializeField]
     private int _maxHealth = 1000;
 
+    private int _currentHealth = 1000;
     public GameObject extractionText;
 
     public AudioSource audioSource;
 
+    public Transform healthBar;
+
     private bool isExtracting = false;
+
+    public float HealthPercent => Mathf.Clamp01(_currentHealth / (float)_maxHealth);
 
     public void Awake() {
         Instance = this;
+        _currentHealth = _maxHealth;
     }
 
     private void Update() {
+        healthBar.localScale = new Vector3(HealthPercent, 1f, 1f);
     }
 
     public void BeginExtraction() {
@@ -49,8 +56,9 @@ class Extractor : MonoBehaviour {
     }
 
     internal void ReceiveDamage(int damage) {
-        _maxHealth -= damage;
-        if (_maxHealth <= 0) {
+        _currentHealth -= damage;
+        if (_currentHealth <= 0) {
+            GameManager.GameOver();
             Debug.LogError("YOU LOST!");
         }
     }

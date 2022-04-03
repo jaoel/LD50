@@ -70,7 +70,6 @@ public class Grunt : EnemyBase {
     private void UpdateMovementState() {
         if (GetDistanceToPlayer() <= 1.0f || GetDistanceToExtractor() <= 2f) {
             SwitchState(PlayerState.Attacking);
-            Attack();
 
             return;
         }
