@@ -7,6 +7,8 @@ class Extractor : MonoBehaviour {
     [SerializeField]
     private int _maxHealth = 1000;
 
+    public GameObject extractionText;
+
     public void Start() {
         
     }
@@ -19,9 +21,17 @@ class Extractor : MonoBehaviour {
 
     public void BeginExtraction() {
         _animator.SetBool("active", true);
+        extractionText.SetActive(false);
     }
 
     public void EndExtraction() {
         _animator.SetBool("active", false);
+        extractionText.SetActive(true);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.TryGetComponent(out Player player)) {
+            BeginExtraction();
+        }
     }
 }
