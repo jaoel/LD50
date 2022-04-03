@@ -12,6 +12,8 @@ class Extractor : MonoBehaviour {
 
     public GameObject extractionText;
 
+    public AudioSource audioSource;
+
     private bool isExtracting = false;
 
     public void Awake() {
@@ -27,6 +29,7 @@ class Extractor : MonoBehaviour {
             extractionText.SetActive(false);
             GameManager.Instance.LevelManager.StartLevel();
             isExtracting = true;
+            audioSource.Play();
         }
     }
 
@@ -35,6 +38,7 @@ class Extractor : MonoBehaviour {
             _animator.SetBool("active", false);
             extractionText.SetActive(true);
             isExtracting = false;
+            audioSource.Stop();
         }
     }
 

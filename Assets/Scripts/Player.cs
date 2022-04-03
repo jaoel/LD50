@@ -51,6 +51,8 @@ public class Player : MonoBehaviour {
     private Vector3 _currentVelocity = Vector3.zero;
     private Camera _mainCamera = null;
 
+    public AudioSource attackAudio;
+
     private void Awake() {
         Instance = this;
         _characterController = GetComponent<CharacterController>();
@@ -153,6 +155,8 @@ public class Player : MonoBehaviour {
         if (hit) {
             Shaker.Shake(0.25f, 25f);
         }
+        attackAudio.pitch = Random.Range(0.95f, 1.05f);
+        attackAudio.Play();
     }
 
     private void UpdateAttackState() {
