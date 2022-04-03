@@ -57,7 +57,7 @@ public class EnemyBase : MonoBehaviour {
         }
         if (_maxHealth <= 0) {
             Destroy(gameObject);
-            Shaker.Shake(0.75f, 25f);
+            Shaker.Shake(0.5f, 25f);
         }
     }
 

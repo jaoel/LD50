@@ -153,7 +153,7 @@ public class Player : MonoBehaviour {
         }
         _chain = (_chain + 1) % 2;
         if (hit) {
-            Shaker.Shake(0.25f, 25f);
+            Shaker.Shake(0.2f, 25f);
         }
         attackAudio.pitch = Random.Range(0.95f, 1.05f);
         attackAudio.Play();
